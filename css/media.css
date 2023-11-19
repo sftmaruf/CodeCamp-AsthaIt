@@ -1,0 +1,42 @@
+@media screen and (max-width: 450px)
+{
+    .picture-message {
+        display: none;
+    }
+    
+    .profile-brief > *:not(.profile-brief-image)
+    {
+        display: none;
+    }
+
+    .input-message button div div:nth-child(1) {
+        display: none;
+    }
+
+    .input-message button div div:nth-child(2) {
+        margin-left: 0;
+    }
+}
+
+@media screen and (max-width: 535px)
+{
+    .chat-window {
+        grid-template-columns: 0 1fr;
+    }
+}
+
+@media screen and (max-width: 828px)
+{
+    .inner-sidebar div {
+        padding: 0;
+    }
+
+    .inner-sidebar svg {
+        margin: auto;
+        justify-content: center;
+    }
+
+    .inner-sidebar p {
+        display: none;
+    }
+}

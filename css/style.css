@@ -1,0 +1,253 @@
+@import url(./assets/sender-pic.jpg);
+
+:root {
+    --selected-bg-color: #f6e5ff;
+    --selected-font-color: #814ba7;
+    --border-color: #eaeaea;
+    --btn-primary: #622592;
+    --bg-secondary: #f6f6f6;
+    --text-white: #ffffff;
+
+    --sidebar-width: 80px;
+    --navbar-height: 80px;
+    --inner-sidebar-width: 20%;
+
+    --window-bg: ffffff;
+
+    --base-margin: 5px;
+    --icon-size: 20px;
+}
+
+*, html {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
+
+.main-window {
+    min-height: 100vh;
+    grid-template-columns:
+        [sidebar] var(--sidebar-width) [main] 1fr;
+}
+
+.sidebar {
+    width: 100%;
+}
+
+.logo-container img{
+    /* width: 80%; */
+    height: var(--navbar-height);
+}
+
+.icon-container {
+    height: 195px;
+}
+
+.content-window {
+    grid-template-rows: [navbar] var(--navbar-height) [chat-window] 1fr;
+}
+
+.navbar, .inner-sidebar  {
+    border: 1px solid var(--border-color);
+}
+
+.profile-brief {
+    text-align: center;
+}
+
+.inner-sidebar {
+    height:100%;
+    width: 100%;
+    background-color: var(--bg-secondary);
+    grid-area: inner-sidebar;
+}
+
+.inner-sidebar div{
+    height: 65px;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.selected {
+    background-color: var(--selected-bg-color);
+    color: var(--selected-font-color);
+}
+
+.selected path {
+    stroke: var(--selected-font-color);
+}
+
+.md-icon {
+    width: calc(var(--icon-size) * 2);
+}
+
+.sm-icon {
+    width: calc(var(--icon-size) * 1.5);
+}
+
+.xs-icon {
+    width: var(--icon-size);
+}
+
+.chat-window {
+    grid-template-columns: 20% 1fr;
+    grid-template-rows: auto;
+    grid-template-areas: 'inner-sidebar chat-area';
+}
+
+.chat-area {
+    position: relative;
+}
+
+.chat-view-container {
+    position: absolute;
+    height: calc(100% - 95px);
+    width: 100%;
+}
+
+.chat-view {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    scrollbar-width: none;
+    scroll-behavior: smooth;
+    -ms-overflow-style: none;
+}
+
+.chat-view div:first-child {
+    margin-top: auto;
+}
+
+.chat-view::-webkit-scrollbar {
+    width: 0;
+}
+
+.input-message {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 65px;
+    padding-bottom: 20px;
+}
+
+.input-field {
+    background-color: var(--bg-secondary);
+    border: 2px solid var(--border-color);
+    width: 100%;
+    border-radius: 5px;
+    padding-left: 40px;
+    background: url('../assets/attachment.svg') no-repeat local 9px 50%;
+    background-size: 20px;
+    outline: none;
+}
+
+.input-message button {
+    margin-left: 20px;
+    border-radius: 5px;
+    width: fit-content;
+    border: none;
+    background-color: var(--btn-primary);
+    color: var(--text-white);
+}
+
+.py-1 {
+    padding-top: var(--base-margin);
+}
+
+.pt-3 {
+    padding-top: calc(var(--base-margin) * 3);
+}
+
+.pl-5 {
+    padding-left: calc(var(--base-margin) * 5);
+}
+
+.pl-4 {
+    padding-left: calc(var(--base-margin) * 4);
+}
+
+.pl-3 {
+    padding-left: calc(var(--base-margin) * 3);
+}
+
+.pl-2 {
+    padding-left: calc(var(--base-margin) * 2);
+}
+
+.px-4 {
+    padding-left: calc(var(--base-margin) * 4);
+    padding-right: calc(var(--base-margin) * 4);
+}
+
+.px-1 {
+    padding-left: var(--base-margin);
+    padding-right: var(--base-margin);
+}
+
+.px-2 {
+    padding-left: calc(var(--base-margin) * 2);
+    padding-right: calc(var(--base-margin) * 2);
+}
+
+.px-3 {
+    padding-left: calc(var(--base-margin) * 3);
+    padding-right: calc(var(--base-margin) * 3);
+}
+
+.mb-2 {
+    margin-bottom: calc(var(--base-margin) * 2);
+}
+
+.mb-5 {
+    margin-bottom: calc(var(--base-margin) * 5);
+}
+
+.ml-1 {
+    margin-left: var(--base-margin);
+}
+
+.ml-2 {
+    margin-left: calc(var(--base-margin) * 2);
+}
+
+.fw-4 {
+    font-weight: 400;
+}
+
+.fw-5 {
+    font-weight: 500;
+}
+
+.grid {
+    display: grid;
+}
+
+.flex {
+    display: flex;
+}
+
+.justify-content-between {
+    justify-content: space-between;
+}
+
+.justify-content-around {
+    justify-content: space-around;
+}
+
+.justify-content-center {
+    justify-content: center;
+}
+
+.align-items-center {
+    align-items: center;
+}
+
+.flex-column {
+    flex-direction: column;
+}
+
+.text-center {
+    text-align: center;
+}
