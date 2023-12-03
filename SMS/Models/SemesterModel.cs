@@ -22,41 +22,4 @@ public class SemesterModel
     {   
         _semesterService = semesterService;
     }
-
-    public void CreateSemester()
-    {
-        _semesterService!.CreateSemester(this);
-    }
-
-    public IReadOnlyList<SemesterModel> GetAllSemesters()
-    {
-        var semestersEO = _semesterService!.GetAllSemesters();
-        var semesters = new List<SemesterModel>();
-
-        foreach(var semesterEO in semestersEO)
-        {
-            semesters.Add(new()
-            {
-                SemesterCode = semesterEO.SemesterCode,
-                Year = semesterEO.Year,
-                NumberOfCredits = semesterEO.NumberOfCredits,
-                Courses = semesterEO.Courses
-            });
-        }
-        
-        return semesters.AsReadOnly();
-    }
-
-    public SemesterModel GetById(string semesterCode)
-    {
-        var semesterEO = _semesterService!.GetById(semesterCode);
-
-        return new()
-            {
-                SemesterCode = semesterEO.SemesterCode,
-                Year = semesterEO.Year,
-                NumberOfCredits = semesterEO.NumberOfCredits,
-                Courses = semesterEO.Courses
-            };
-    }
 }

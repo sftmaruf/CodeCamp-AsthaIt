@@ -18,16 +18,4 @@ public class SemesterCourseModel
     {
         _semesterService = semesterService;
     }
-
-    public void AddCourse()
-    {
-        try
-        {
-            _semesterService!.AddCourse(this);
-        }
-        catch(Exception ex)
-        {
-            Console.WriteLine(ex.Message);
-        }
-    }
 }
