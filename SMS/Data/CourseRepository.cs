@@ -38,4 +38,17 @@ public class CourseRepository : IRepository
         if(course is null) return Result<Course>.Fail("Course not found");
         return Result<Course>.Success(course);
     }
+
+    public IResult<IReadOnlyList<Course>> GetFilteredCourses(Func<Course, bool> expression)
+    {
+        var filteredCourses = Courses.Where(expression).ToList();
+        return Result<IReadOnlyList<Course>>.Success(filteredCourses);
+    }
+
+    public IResult<Course> GetById(string id)
+    {
+        var course = Courses.SingleOrDefault(c => c.Id == id);
+        if(course == null) return Result<Course>.Fail("Course not found.");
+        return Result<Course>.Success(course);
+    }
 }

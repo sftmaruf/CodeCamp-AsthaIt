@@ -1,5 +1,4 @@
 using Sercvices.Interfaces;
-
 namespace Models;
 
 public class SemesterCourseModel

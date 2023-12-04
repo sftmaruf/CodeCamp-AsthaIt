@@ -1,4 +1,3 @@
-
 using System.Text.Json;
 using Entities;
 
@@ -9,7 +8,6 @@ public class UnitOfWorks : IUnitOfWork
     public StudentRepository StudentRepository { get; private set; }
     public CourseRepository CourseRepository { get; private set; }
     public SemesterRepository SemesterRepository { get; private set; }
-    public List<Semester> Semesters { get; private set; }
 
     private string _filePath = string.Empty;
     private string _studentsFilePath = string.Empty;
@@ -21,10 +19,10 @@ public class UnitOfWorks : IUnitOfWork
         StudentRepository = new StudentRepository(students);
         CourseRepository = new CourseRepository(courses);
         SemesterRepository = new SemesterRepository(semesters);
-        Semesters = semesters;
 
         SetFilePath();
         CreateFile();
+        SeedDummyCourses();
         LoadData();
     }
 
@@ -38,9 +36,9 @@ public class UnitOfWorks : IUnitOfWork
 
     public void CreateFile()
     {
-        if(!File.Exists(_studentsFilePath)) File.Create(_studentsFilePath);
-        if(!File.Exists(_coursesFilePath)) File.Create(_coursesFilePath);
-        if(!File.Exists(_semestersFilePath)) File.Create(_semestersFilePath);
+        if(!File.Exists(_studentsFilePath)) File.Create(_studentsFilePath).Dispose();
+        if(!File.Exists(_coursesFilePath)) File.Create(_coursesFilePath).Dispose();
+        if(!File.Exists(_semestersFilePath)) File.Create(_semestersFilePath).Dispose();
     }
 
     public void LoadData()
@@ -90,50 +88,20 @@ public class UnitOfWorks : IUnitOfWork
     }
 
     // responsible to seed the course values.
-    private void InsertDummyCourses(List<Course> courses)
+    private void SeedDummyCourses()
     {
-        courses.Add(new()
-        {
-            Id = "AOL 101",
-            Name = "Art of Living",
-            Credit = 3
-        });
+        var fileContent = File.ReadAllText(_coursesFilePath);
+        if(!string.IsNullOrEmpty(fileContent)) return;
 
-        courses.Add(new()
+        var courses = new List<Course>
         {
-            Id = "SE 111",
-            Name = "Computer Fundamentals",
-            Credit = 3
-        });
-
-        courses.Add(new()
-        {
-            Id = "SE 112",
-            Name = "Computer Fundamentals Lab",
-            Credit = 1
-        });
-
-        courses.Add(new()
-        {
-            Id = "SE 113",
-            Name = "Introduction To Software Engineering",
-            Credit = 3
-        });
-
-
-        courses.Add(new()
-        {
-            Id = "SE 114",
-            Name = "English",
-            Credit = 3
-        });
-
-        courses.Add(new()
-        {
-            Id = "MAT 124",
-            Name = "Math-I",
-            Credit = 3
-        });
+            new(){ Id = "AOL 101", Name = "Art of Living", Credit = 3, Departments = new(){ new(){ Name = "SWE"}, new() { Name = "Computer Science"}}},
+            new(){ Id = "SE 111", Name = "Computer Fundamentals", Credit = 3, Departments = new(){ new() { Name = "SWE"}, new() { Name = "Computer Science"}}},
+            new(){ Id = "SE 112", Name = "Computer Fundamentals Lab", Credit = 1, Departments = new(){ new() { Name = "SWE"}, new() { Name = "Computer Science"}}},
+            new(){ Id = "SE 113", Name = "Introduction To Software Engineering", Credit = 3, Departments = new(){ new() { Name = "SWE"}}},
+            new(){ Id = "SE 114", Name = "English", Credit = 3, Departments = new(){ new() { Name = "SWE"}, new() { Name = "BBA"}, new() { Name = "English"}}},
+            new(){ Id = "MAT 124", Name = "Math-I", Credit = 3, Departments = new(){ new() { Name = "SWE"}, new() { Name = "Computer Science"}}},
+        };
 
         File.WriteAllText(_coursesFilePath, JsonSerializer.Serialize(courses));
     }

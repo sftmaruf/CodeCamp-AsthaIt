@@ -7,6 +7,7 @@ namespace Models;
 public class StudentModel 
 {
     public Guid Id { get; set;  } = Guid.Empty;
+    public string StudentId { get; set; } = string.Empty;
     public string FirstName { get; set;} = string.Empty;
     public string MiddleName { get; set;} = string.Empty;
     public string LastName { get; set; } = string.Empty;
@@ -54,6 +55,7 @@ public class StudentModel
                 students.Add(new() 
                 {
                     Id =  student.Id,
+                    StudentId = student.StudentId,
                     FirstName = student.FirstName,
                     MiddleName = student.MiddleName,
                     LastName = student.LastName,
@@ -70,7 +72,7 @@ public class StudentModel
         return Result<IReadOnlyList<StudentModel>>.Fail();
     }
 
-    public IResult<StudentModel> GetById(Guid studentId)
+    public IResult<StudentModel> GetById(string studentId)
     {
         var result = _studentService!.GetById(studentId);
 
@@ -96,19 +98,12 @@ public class StudentModel
         return Result<StudentModel>.Fail("Student not found");
     }
     
-    public IResult AddSemester(Guid studentId, SemesterModel semesterModel)
+    public IResult AddSemester(string studentId, SemesterModel semesterModel)
     {
-        try 
-        {
-            return _studentService!.AssignSemester(studentId, semesterModel);
-        }
-        catch
-        {
-            return Result<StudentModel>.Fail("Semester assignment failed");
-        }
+        return _studentService!.AssignSemester(studentId, semesterModel);
     }
 
-    public IResult AddCourse(Guid studentId, SemesterCourseModel semesterCourseModel)
+    public IResult AddCourse(string studentId, SemesterCourseModel semesterCourseModel)
     {
         try
         {
@@ -120,11 +115,11 @@ public class StudentModel
         }
     }
 
-    public IResult DeleteStudent(Guid id)
+    public IResult DeleteStudent(string studentId)
     {
         try
         {
-            return _studentService!.DeleteStudent(id);
+            return _studentService!.DeleteStudent(studentId);
         }
         catch
         {

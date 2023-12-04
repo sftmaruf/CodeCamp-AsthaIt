@@ -1,8 +1,10 @@
-﻿using Data;
+﻿using System.Text.RegularExpressions;
+using Data;
 using Entities;
 using Models;
 using Services;
 using UI;
+using Validators;
 
 var unitOfWork = new UnitOfWorks(new List<Student>(), new List<Course>(), new List<Semester>());
 
@@ -23,7 +25,7 @@ screen.ShowOptions();
 while(true)
 {    
     var (response, forward) = screen.WaitForResponse();
-    Console.WriteLine($"You have selected options `{response}`\n");
+    Console.WriteLine($"You have selected options '{response}'.\n");
 
     switch(response)
     {
@@ -37,31 +39,47 @@ while(true)
         case "2":
             {
                 var studentModel = new StudentModel(new StudentService(unitOfWork));
-                screen.TakeInput(new StudentInputTaker(studentModel));
+                var inputResult = screen.TakeInput(new StudentInputTaker(studentModel));
+                if(!inputResult.IsSuccess)
+                {
+                    Console.WriteLine(inputResult.Errors[0]);
+                    break;
+                } 
+
                 var result = studentModel.AddStudent();
+                if(!result.IsSuccess) Console.WriteLine(result.Errors[0]);
                 break;
             }
         case "3":
             {
                 Console.Write("Student Id: ");
-                var isValidId = Guid.TryParse(Console.ReadLine()!, out var studentId);
+                var studentId = Console.ReadLine()!;
+                var idValidation = Regex.Match(studentId, StudentValidator.StudentIdRegex);
+                if(!idValidation.Success)
+                {
+                    Console.WriteLine("Invalid id format.");
+                    break;
+                }
 
-                if(isValidId)
-                {
-                    var studentModel = new StudentModel(new StudentService(unitOfWork));
-                    var result = studentModel.GetById(studentId);
-                    screen.ShowDetails(new StudentOutputProducer(), result.Data!);
-                }
-                else
-                {
-                    Console.WriteLine("Invalid id format. Try again with a valid Guid.");
-                }
+                var studentModel = new StudentModel(new StudentService(unitOfWork));
+                var result = studentModel.GetById(studentId);
+                screen.ShowDetails(new StudentOutputProducer(), result.Data!);
                 break;
             }
         case "4":
             {
+                Console.Write("Student Id: ");
+                var studentId = Console.ReadLine()!;
+                var idValidation = Regex.Match(studentId, StudentValidator.StudentIdRegex);
+
+                if(!idValidation.Success)
+                {
+                    Console.WriteLine("Invalid id format.");
+                    break;
+                }
+
                 var studentModel = new StudentModel(new StudentService(unitOfWork));
-                var result = studentModel.DeleteStudent(Guid.Parse(Console.ReadLine()!));
+                var result = studentModel.DeleteStudent(studentId);
 
                 if(!result.IsSuccess) Console.WriteLine(result.Errors[0]);
                 break;
@@ -76,44 +94,53 @@ while(true)
         case "6":
             {
                 var semesterModel = new SemesterModel(new SemesterService(unitOfWork));
-                screen.TakeInput(new SemesterInputTaker(semesterModel));
-
-                var studentModel = new StudentModel(new StudentService(unitOfWork));
+                var inputResult = screen.TakeInput(new SemesterInputTaker(semesterModel));
+                if(!inputResult.IsSuccess)
+                {
+                    Console.WriteLine(inputResult.Errors[0]);
+                    break;
+                }
 
                 Console.Write("Student Id: ");
-                var isValidId = Guid.TryParse(Console.ReadLine()!, out var studentId);
-
-                if(isValidId)
+                var studentId = Console.ReadLine()!;
+                var idValidation = Regex.Match(studentId, StudentValidator.StudentIdRegex);
+                if(!idValidation.Success)
                 {
-                    studentModel.AddSemester(studentId, semesterModel);
-                }
-                else
-                {
-                    Console.WriteLine("Invalid id format. Try again with a valid Guid.");
+                    Console.WriteLine("Invalid id format.");
+                    break;
                 }
                 
+                var studentModel = new StudentModel(new StudentService(unitOfWork));
+                var result = studentModel.AddSemester(studentId, semesterModel);
+                if(!result.IsSuccess) Console.WriteLine(result.Errors[0]);
                 break;   
             }
         case "7":
             {
-                var semesterCourseModel = new SemesterCourseModel(new SemesterService(unitOfWork));
-                screen.TakeInput(new SemesterCourseInputTaker(semesterCourseModel));
-
                 Console.Write("Student Id: ");
-                var isValidId = Guid.TryParse(Console.ReadLine()!, out var studentId);
-
-                if(isValidId)
+                var studentId = Console.ReadLine()!;
+                var idValidation = Regex.Match(studentId, StudentValidator.StudentIdRegex);
+                if(!idValidation.Success)
                 {
-                    var studentModel = new StudentModel(new StudentService(unitOfWork));
-                    var result = studentModel.AddCourse(studentId, semesterCourseModel);
-                
-                    if(!result.IsSuccess) Console.WriteLine(result.Errors[0]);
-                }
-                else
-                {
-                    Console.WriteLine("Invalid id format. Try again with a valid Guid.");
+                    Console.WriteLine("Invalid id format.");
+                    break;
                 }
 
+                var semesterCourseModel = new SemesterCourseModel(new SemesterService(unitOfWork));
+                var courseModel = new CourseModel(new CourseService(unitOfWork));
+                var studentModel = new StudentModel(new StudentService(unitOfWork))
+                {
+                    StudentId = studentId
+                };
+                var inputResult = screen.TakeInput(new SemesterCourseInputTaker(semesterCourseModel, courseModel, studentModel));
+                if(!inputResult.IsSuccess) 
+                {
+                    Console.WriteLine(inputResult.Errors[0]);
+                    break;
+                }
+
+                var result = studentModel.AddCourse(studentId, semesterCourseModel);
+                if(!result.IsSuccess) Console.WriteLine(result.Errors[0]);
                 break;
             }
         case "exit":

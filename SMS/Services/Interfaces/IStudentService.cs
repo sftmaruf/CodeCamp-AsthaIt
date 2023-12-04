@@ -8,8 +8,8 @@ public interface IStudentService
 {
     IResult<IReadOnlyList<Student>> GetAllStudents();
     IResult AddStudent(StudentModel student);
-    IResult<Student> GetById(Guid id);
-    IResult AssignSemester(Guid studentId, SemesterModel semesterModel);
-    IResult AssignCourse(Guid studentId, SemesterCourseModel semesterCourseModel);
-    IResult DeleteStudent(Guid id);
+    IResult<Student> GetById(string studentId);
+    IResult AssignSemester(string studentId, SemesterModel semesterModel);
+    IResult AssignCourse(string studentId, SemesterCourseModel semesterCourseModel);
+    IResult DeleteStudent(string id);
 }

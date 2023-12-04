@@ -17,11 +17,13 @@ public class StudentService : IStudentService
 
     public IResult AddStudent(StudentModel student)
     {
-        var isStudentExist = GetById(student.Id);
-        if(isStudentExist is not null) Result<Student>.Fail("Student already exists");
+        var isStudentExist = GetById(student.StudentId);
+        if (isStudentExist is not null) Result<Student>.Fail("Student already exists");
 
-        var studentEO = new Student {
+        var studentEO = new Student
+        {
             Id = student.Id,
+            StudentId = student.StudentId,
             FirstName = student.FirstName,
             MiddleName = student.MiddleName,
             LastName = student.LastName,
@@ -30,7 +32,7 @@ public class StudentService : IStudentService
             Degree = student.Degree
         };
 
-        if(student.Id == Guid.Empty) studentEO.FillId();
+        if (student.Id == Guid.Empty) studentEO.FillId();
         _unitOfWork.StudentRepository.Add(studentEO);
         _unitOfWork.SaveChanges();
 
@@ -41,46 +43,64 @@ public class StudentService : IStudentService
     {
         var students = _unitOfWork.StudentRepository.GetAll();
 
-        if(!students.IsSuccess) return Result<IReadOnlyList<Student>>.Fail();
+        if (!students.IsSuccess) return Result<IReadOnlyList<Student>>.Fail();
         return Result<IReadOnlyList<Student>>.Success(students.Data!.AsReadOnly());
     }
 
-    public IResult<Student> GetById(Guid id)
+    public IResult<Student> GetById(string studentId)
     {
-        return _unitOfWork.StudentRepository.GetById(id);
+        return _unitOfWork.StudentRepository.GetById(studentId);
     }
 
-    public IResult AssignSemester(Guid studentId, SemesterModel semesterModel)
+    public IResult AssignSemester(string studentId, SemesterModel semesterModel)
     {
         var result = GetById(studentId);
-        if(result.IsSuccess)
+        if (result.IsSuccess)
         {
             var student = result.Data;
-            student!.AttendedSemesters.Add(new Semester {
+            var semester = new Semester
+            {
                 SemesterCode = semesterModel.SemesterCode,
                 Year = semesterModel.Year,
                 NumberOfCredits = semesterModel.NumberOfCredits,
                 Courses = semesterModel.Courses!
-            });
+            };
+
+            var isSemesterAssignedToStudent = student!.AttendedSemesters
+                .Exists(s => s.GetSemesterCode() == semester.GetSemesterCode());
+
+            if (isSemesterAssignedToStudent)
+            {
+                return Result<Student>.Fail("Semester already assigned.");
+            }
+
+            student!.AttendedSemesters.Add(semester);
+            _unitOfWork.StudentRepository.IsPristine = false;
+            _unitOfWork.SaveChanges();
+
+            return Result<Student>.Success();
         }
-        _unitOfWork.StudentRepository.IsPristine = false;
-        _unitOfWork.SaveChanges();
 
         return Result<Student>.Fail("Student not found");
     }
 
-    public IResult AssignCourse(Guid studentId, SemesterCourseModel semesterCourseModel)
+    public IResult AssignCourse(string studentId, SemesterCourseModel semesterCourseModel)
     {
         var student = GetById(studentId).Data;
-        if(student is null)  return Result<Student>.Fail("Student not found");
+        if (student is null) return Result<Student>.Fail("Student not found");
 
-        var semester = student.AttendedSemesters
-            .SingleOrDefault(semester => semester.GetSemesterCode() == semesterCourseModel.SemesterId);
-        if(semester is null)  return Result<Semester>.Fail("Semester not found" );
+        var semester = student.AttendedSemesters.SingleOrDefault(semester => 
+            semester.GetSemesterCode() == semesterCourseModel.SemesterId);
+        if (semester is null) return Result<Semester>.Fail("Semester not found");
 
         var result = _unitOfWork.CourseRepository.GetSingleOrDefault(course => course.Id == semesterCourseModel.CourseId);
-        if(!result.IsSuccess) return Result<Course>.Fail( "Course not found" );
+        if (!result.IsSuccess) return Result<Course>.Fail("Course not found");
         var course = result.Data!;
+
+        var isCourseAlreadyTaken = student.AttendedSemesters.Any(s => {
+            return s.Courses.Any(c => c.Id == semesterCourseModel.CourseId);
+        });
+        if(isCourseAlreadyTaken) return Result<Semester>.Fail("Course already taken");
 
         semester.Courses.Add(new()
         {
@@ -97,9 +117,9 @@ public class StudentService : IStudentService
         return Result<Semester>.Success();
     }
 
-    public IResult DeleteStudent(Guid id)
+    public IResult DeleteStudent(string studentId)
     {
-        var result = _unitOfWork.StudentRepository.DeleteById(id);
+        var result = _unitOfWork.StudentRepository.DeleteById(studentId);
         _unitOfWork.SaveChanges();
 
         return result;

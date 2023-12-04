@@ -1,7 +1,9 @@
 using System.Text;
+using System.Text.RegularExpressions;
 using Commons;
 using Models;
 using UI.Interfaces;
+using Validators;
 
 namespace UI;
 
@@ -23,6 +25,8 @@ public class StudentInputTaker : IInputTaker
     {
         ShowPrompt();
 
+        var studentId = TakeStudentId();
+
         Console.Write("First Name: ");
         var firstName = Console.ReadLine();
         
@@ -39,12 +43,26 @@ public class StudentInputTaker : IInputTaker
         
         var degree = TakeInputDegree();
 
+        _studentModel.StudentId = studentId;
         _studentModel.FirstName = firstName!;
         _studentModel.MiddleName = middleName!;
         _studentModel.LastName = lastName!;
         _studentModel.JoiningBatch = joiningBatch!;
         _studentModel.Department = department;
         _studentModel.Degree = degree;
+    }
+
+    private string TakeStudentId()
+    {
+        Console.Write("Student ID: ");
+        var studentId = Console.ReadLine()!;
+        if(string.IsNullOrEmpty(studentId)) 
+            throw new Exception("Student Id is required. This field can't be empty.");
+
+        var idValidation = Regex.Match(studentId, StudentValidator.StudentIdRegex);
+        if(!idValidation.Success) throw new Exception("Student id format isn't correct.");
+
+        return studentId;
     }
 
     private string TakeInputDepartment()

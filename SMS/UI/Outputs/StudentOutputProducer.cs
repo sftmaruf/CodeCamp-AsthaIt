@@ -1,5 +1,3 @@
-using System.Net.Http.Headers;
-using Entities;
 using Models;
 using UI.Interfaces;
 
@@ -10,9 +8,10 @@ public class StudentOutputProducer : IOutputProducer<StudentModel>
 
     public void ShowList(IReadOnlyList<StudentModel> students)
     {
+        Console.WriteLine("Id          Name");
         foreach(var student in students)
         {
-            Console.WriteLine($"{student.Id} {student.GetFullName()}");
+            Console.WriteLine($"{student.StudentId} {student.GetFullName()}");
         }
     }
 
@@ -20,7 +19,7 @@ public class StudentOutputProducer : IOutputProducer<StudentModel>
     {
         if(student == null) 
         {
-            Console.WriteLine("Sorry student account doesn't exist");
+            Console.WriteLine("Sorry student account doesn't exist.");
             return;
         }
 
@@ -33,6 +32,7 @@ public class StudentOutputProducer : IOutputProducer<StudentModel>
 
         if(student.AttendedSemesters.Count > 0)
         {
+            Console.WriteLine("Semesters: ");
             foreach(var semester in student.AttendedSemesters)
             {
                 new SemesterOutputProducer().ShowDetails(new() {
@@ -41,6 +41,7 @@ public class StudentOutputProducer : IOutputProducer<StudentModel>
                     NumberOfCredits = semester.NumberOfCredits,
                     Courses = semester.Courses
                 });
+                Console.WriteLine();
             }
         }
     }

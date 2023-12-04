@@ -12,6 +12,7 @@ public enum Degree
 
 public enum Department
 {
+    SWE,
     ComputerScience,
     BBA,
     English

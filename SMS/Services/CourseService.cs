@@ -21,4 +21,15 @@ public class CourseService : ICourseService
 
         return Result<IReadOnlyList<Course>>.Success(result.Data!.AsReadOnly());
     }
+
+    public IResult<IReadOnlyList<Course>> GetCoursesByDepartment(string departmentName)
+    {
+        return _unitOfWork.CourseRepository
+            .GetFilteredCourses(x => x.Departments.Exists(d => d.Name == departmentName));
+    }
+
+    public IResult<Course> GetById(string id)
+    {
+        return _unitOfWork.CourseRepository.GetById(id);
+    }
 }

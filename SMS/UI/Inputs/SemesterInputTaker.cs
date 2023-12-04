@@ -14,7 +14,7 @@ public class SemesterInputTaker : IInputTaker
 
     public void TakeInput()
     {
-        Console.Write("Semester Code: ");
+        Console.Write("Season: ");
         var semesterCode = Console.ReadLine();
         Console.Write("Year: ");
         var year = Console.ReadLine();

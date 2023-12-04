@@ -19,7 +19,6 @@ public class SemesterRepository : IRepository
     {
         if(File.Exists(filePath))
         {
-            Console.WriteLine("Loading values");
             var semestersJson = File.ReadAllText(filePath);
 
             if (!string.IsNullOrWhiteSpace(semestersJson)) 

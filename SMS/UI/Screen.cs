@@ -1,5 +1,6 @@
 using Models;
 using UI.Interfaces;
+using Utility;
 
 namespace UI;
 
@@ -23,8 +24,10 @@ public class Screen : IScreen
     {
         foreach(var key in _options.Keys)
         {
-            Console.WriteLine($"{key} {_options[key]}");
+            Console.WriteLine($"{key}. {_options[key]}");
         }
+
+        Console.WriteLine("*Type 'exit' to exit the application and 'cls' to clear the screen.");
     }
 
     public void ShowStudent(List<StudentModel> students)
@@ -43,14 +46,15 @@ public class Screen : IScreen
         return response == "exit"  ? (response, false) : (response, true);
     }
 
-    public void TakeInput(IInputTaker inputTaker)
+    public IResult TakeInput(IInputTaker inputTaker)
     {
        try {
             inputTaker.TakeInput();
+            return Result<Screen>.Success();
        }
        catch(Exception ex)
        {
-            Console.WriteLine(ex.Message);
+            return Result<Screen>.Fail(ex.Message);
        }
     }
 

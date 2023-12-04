@@ -39,15 +39,15 @@ public class StudentRepository : IRepository
         return Result<List<Student>>.Success(Students);
     }
 
-    public IResult<Student> GetById(Guid id)
+    public IResult<Student> GetById(string studentId)
     {
-         var student = Students.SingleOrDefault(student => student.Id == id);
+        var student = Students.SingleOrDefault(student => student.StudentId == studentId);
         if(student is not null) return Result<Student>.Success(student);
 
         return Result<Student>.Fail("Student not found");
     }
 
-    public IResult DeleteById(Guid id)
+    public IResult DeleteById(string id)
     {
         var result = GetById(id);
         if(!result.IsSuccess) return Result<Student>.Fail("Student not found");
