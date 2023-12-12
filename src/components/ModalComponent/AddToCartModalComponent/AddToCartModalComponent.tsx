@@ -28,7 +28,6 @@ const AddToCartModal: FunctionComponent<PropsType> = ({
 
   const handleEdit = () => {
     setEditModalOpen(!editModalOpen);
-    setModalOpen(false);
   };
 
   const { mutate: editName } =  useEditName();
@@ -49,28 +48,17 @@ const AddToCartModal: FunctionComponent<PropsType> = ({
         onCancel={() => setModalOpen(false)}
         footer={(_, { OkBtn, CancelBtn }) => (
           <>
-            <Button onClick={() => handleEdit()}>Edit</Button>
             <CancelBtn />
+            <Button onClick={() => handleEdit()}>Edit</Button>
             <OkBtn />
           </>
         )}>
         {!isFetched ? <div>Loading</div> : <SetDetails _data={data!} />}
       </Modal>
 
-      <EditModal modalOpen={editModalOpen} setModalOpen={setEditModalOpen} setId={_id} handleUpdate={handleUpdate} />
+      <EditModal modalOpen={editModalOpen} setModalOpen={setEditModalOpen} handleUpdate={handleUpdate} />
     </>
   );
 };
 
 export default AddToCartModal;
-
-// id: string;
-// name: string;
-// series: string;
-// printedTotal: number;
-// total: number;
-// legalities: ILegality;
-// ptcgoCode: string;
-// releaseDate: string;
-// updatedAt: string;
-// images: SetImage;

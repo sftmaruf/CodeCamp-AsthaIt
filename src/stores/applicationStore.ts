@@ -39,8 +39,11 @@ export const useApplicationStore = create<{
         (x) => !(x.id === item.id && x.timeStamp === item.timeStamp)
       );
 
+      let newCount = state.cart.count - quantity;
+      if(newCount < 0) newCount = 0;
+
       const newState = {
-        cart: { count: state.cart.count - quantity, items: [...filteredItems] },
+        cart: { count: newCount, items: [...filteredItems] },
       };
 
       setItemToLocalStorage('count', JSON.stringify(newState));

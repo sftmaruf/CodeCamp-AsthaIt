@@ -46,7 +46,7 @@ const Index = () => {
     enabled: true,
   });
 
-  if(data?.length === 0 || !data) return <LoadingComponent />;
+  if(!data || data?.length === 0) return <LoadingComponent />;
 
   return (
     <>

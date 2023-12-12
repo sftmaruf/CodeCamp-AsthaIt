@@ -1,32 +1,44 @@
-import { Form, Input, Modal } from "antd";
+import { Input, Modal } from "antd";
 import React, { FunctionComponent, useState } from "react";
 
 interface PropsType {
-    modalOpen: boolean;
-    setModalOpen: (decision: boolean) => void;
-    setId: string,
-    handleUpdate: (newName: string) => void
+  modalOpen: boolean;
+  setModalOpen: (decision: boolean) => void;
+  handleUpdate: (newName: string) => void;
 }
 
-const EditModal: FunctionComponent<PropsType> = ({ modalOpen, setModalOpen, setId, handleUpdate }) => {
-  const [newName, setNewName] = useState<string>('');
+const EditModal: FunctionComponent<PropsType> = ({
+  modalOpen,
+  setModalOpen,
+  handleUpdate,
+}) => {
+  const [newName, setNewName] = useState<string>("");
+  const [showError, setShowError] = useState<boolean>(false);
+
+  const handleOk = () => {
+    if (newName.trim() === "") {
+      setShowError(!showError);
+      return;
+    }
+
+    handleUpdate(newName);
+    setModalOpen(false);
+  };
 
   return (
-    <Modal
-      centered
-      title={"Edit name"}
-      open={modalOpen}
-      okText="Change"
-      okButtonProps={{ className: "bg-black" }}
-      onOk={() => {
-        handleUpdate(newName);
-        setModalOpen(false);
-      }}
-      onCancel={() => setModalOpen(false)}>
-      <Form>
-        <Input onChange={(e) => setNewName(e.target.value)}/>
-      </Form>
-    </Modal>
+      <Modal
+        centered
+        title={"Edit name"}
+        open={modalOpen}
+        okText="Change"
+        okButtonProps={{ className: "bg-black" }}
+        onOk={handleOk}
+        onCancel={() => setModalOpen(false)}>
+        <Input onChange={(e) => setNewName(e.target.value)} />
+        {
+          showError ? <small className='text-red-500'>*New name is required</small> : <></>
+        }
+      </Modal>
   );
 };
 
