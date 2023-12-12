@@ -7,16 +7,8 @@ import AntCard2Component from '@/components/CardComponent/AntCardComponent/AntCa
 
 const Index = () => {
     const [cart, setCart] = useState<ICart>({count: 0, items: []});
-    const c = useApplicationStore(state => state.cart);
-
-    useEffect(() => {
-        setCart(c);
-        // const result = getItemFromLocalStorage('count');
-        // if(result.isSuccess) {
-        //     const resultAsJson = JSON.parse(result.data!);
-        //     setCart(resultAsJson.cart);
-        // }
-    }, [c]);
+    const cartFromStore = useApplicationStore(state => state.cart);
+    useEffect(() => setCart(cartFromStore), [cartFromStore]);
 
     return (
         <div>

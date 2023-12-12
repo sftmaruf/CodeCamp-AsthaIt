@@ -5,37 +5,6 @@ import {
 import { ICart, ISetExtended } from "@/types";
 import { create } from "zustand";
 
-// export const useApplicationStore = create<{
-//   cart: ICart;
-//   addToCart: (id: string, quantity?: number) => void,
-//   removeFromCart: (id: string, quantity?: number) => void;
-// }>((set) => ({
-//   cart: { count: 0, itemIds: [] as string[] },
-
-//   addToCart: (id: string, quantity: number = 1) =>
-//     set((state: { cart: ICart }) => {
-//       const newState = {
-//         cart: {
-//           count: state.cart.count + quantity,
-//           itemIds: [...state.cart.itemIds, id]
-//         }
-//       }
-
-//       setItemToLocalStorage('count', JSON.stringify(newState));
-//       return newState;
-//     }),
-
-//   removeFromCart: (id: string, quantity: number = 1) =>
-//     set((state: { cart: ICart }) => {
-//       const ids = state.cart.itemIds.filter((itemId) => itemId !== id);
-
-//       const newState = { cart: { count: state.cart.count - quantity, itemIds: [...ids] } };
-
-//       setItemToLocalStorage('count', JSON.stringify(newState));
-//       return newState;
-//     }),
-// }));
-
 const getCount = (): ICart => {
   const result = getItemFromLocalStorage('count');
   if(!result.isSuccess) return { count: 0, items: [] } as ICart;

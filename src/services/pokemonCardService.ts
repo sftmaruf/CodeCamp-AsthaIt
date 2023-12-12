@@ -1,7 +1,6 @@
 import { ICard, Result } from "@/types";
 import { PokemonTCG } from "pokemon-tcg-sdk-typescript";
 import { Parameter } from "pokemon-tcg-sdk-typescript/dist/sdk";
-// import { Parameter } from 'pokemon-tcg-sdk-typescript/interfaces/parameter';
 
 export const getCardsBySet = async (
   setId: string

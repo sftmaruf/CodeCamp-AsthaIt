@@ -25,11 +25,10 @@ const AddToCartModal: FunctionComponent<PropsType> = ({
   const [editModalOpen, setEditModalOpen] = useState(false);
 
   const { data, isFetched } = useGetASet(_id);
-  console.log(data);
 
   const handleEdit = () => {
     setEditModalOpen(!editModalOpen);
-    // setModalOpen(false);
+    setModalOpen(false);
   };
 
   const { mutate: editName } =  useEditName();

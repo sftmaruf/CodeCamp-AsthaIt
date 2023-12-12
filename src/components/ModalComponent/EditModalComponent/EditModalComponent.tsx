@@ -1,6 +1,5 @@
 import { Form, Input, Modal } from "antd";
 import React, { FunctionComponent, useState } from "react";
-import { useEditName } from "@/utilities/reactQuery/reactQueryHooks";
 
 interface PropsType {
     modalOpen: boolean;

@@ -5,9 +5,7 @@ import React, { FunctionComponent, useState } from "react";
 const EditOutlined: FunctionComponent<{_modalInfo: { id: string, name: string }}> = ({ _modalInfo}) => {
     const [modalOpen, setModalOpen] = useState<boolean>(false);
 
-    const handleOnClick = () => {
-        setModalOpen(true);
-    }
+    const handleOnClick = () => setModalOpen(true);
 
     return (
         <>

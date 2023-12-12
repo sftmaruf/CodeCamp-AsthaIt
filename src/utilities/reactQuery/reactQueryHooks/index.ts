@@ -2,7 +2,6 @@ import { QueryKeys } from "../queryKeys";
 import { UseQueryResult, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getAllSets, getSetById, toDesceding } from "./../../../services/pokemonSetService";
 import { ISet, IterableList } from "@/types";
-import { getItemFromLocalStorage } from "@/services/localStorageService";
 
 export const useGetAllSet = (): UseQueryResult<IterableList[], Error> => {
   return useQuery<IterableList[], Error>({
@@ -79,23 +78,3 @@ export const useEditName = () => {
 
   return editNameMutation;
 }
-
-// const usetName = () => {
-//    return useMutation({
-//     mutationFn: () => {  },
-//     onSuccess: () => {}
-//    })
-// }
-
-// export const useLocalStorage = () => {
-//   return useQuery({
-//     queryKey: [QueryKeys.GetASet],
-//     queryFn: () => {
-//       const result = getItemFromLocalStorage('count');
-//       if(!result.isSuccess) ({ count: 0, itemIds: [] as string[] } as ICart);
-
-//       const resultAsJson = JSON.parse(result.data!) as { cart: ICart };
-//       return resultAsJson.cart;
-//     }
-//   })
-// }
