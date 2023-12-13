@@ -1,5 +1,5 @@
 import { Input, Modal } from "antd";
-import React, { FunctionComponent, useState } from "react";
+import React, { ChangeEvent, FunctionComponent, useState } from "react";
 
 interface PropsType {
   modalOpen: boolean;
@@ -17,12 +17,17 @@ const EditModal: FunctionComponent<PropsType> = ({
 
   const handleOk = () => {
     if (newName.trim() === "") {
-      setShowError(!showError);
+      setShowError(true);
       return;
     }
 
     handleUpdate(newName);
     setModalOpen(false);
+  };
+
+  const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setNewName(e.target.value);
+    if(showError) setShowError(false);
   };
 
   return (
@@ -34,7 +39,7 @@ const EditModal: FunctionComponent<PropsType> = ({
         okButtonProps={{ className: "bg-black" }}
         onOk={handleOk}
         onCancel={() => setModalOpen(false)}>
-        <Input onChange={(e) => setNewName(e.target.value)} />
+        <Input onChange={handleOnChange} />
         {
           showError ? <small className='text-red-500'>*New name is required</small> : <></>
         }

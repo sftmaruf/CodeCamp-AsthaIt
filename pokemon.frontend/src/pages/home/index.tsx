@@ -1,7 +1,7 @@
 import HomeComponent from '@/components/HomeComponent/HomeComponent';
 import { getAllSets, toDesceding } from '@/services/pokemonSetService';
 import { IterableList } from '@/types';
-import { GetServerSideProps, GetServerSidePropsContext, GetStaticProps, GetStaticPropsContext } from 'next';
+import { GetServerSideProps, GetServerSidePropsContext, GetStaticProps, GetStaticPropsContext } from 'next/types';
 import { FunctionComponent } from 'react';
 import React from 'react';
 import { QueryClient, dehydrate, useQuery } from '@tanstack/react-query';
@@ -28,7 +28,7 @@ export const getStaticProps: GetStaticProps = async(context: GetStaticPropsConte
       }
     });
 
-    return { props: { dehydratedState: dehydrate(queryClient) }, revalidate: 24 * 60 * 60 * 1000 };
+    return { props: { dehydratedState: dehydrate(queryClient) }, revalidate: 24 * 60 * 60 };
 }
 
 const Index: FunctionComponent = () => {
