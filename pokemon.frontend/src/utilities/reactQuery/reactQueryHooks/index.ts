@@ -3,26 +3,20 @@ import { UseQueryResult, useMutation, useQuery, useQueryClient } from "@tanstack
 import { getAllSets, getSetById, toDesceding } from "./../../../services/pokemonSetService";
 import { ISet, IterableList } from "@/types";
 
-export const useGetAllSet = (): UseQueryResult<IterableList[], Error> => {
-  return useQuery<IterableList[], Error>({
+export const useGetAllSet = (): UseQueryResult<ISet[], Error> => {
+  return useQuery<ISet[], Error>({
     queryKey: [QueryKeys.GetAllSet],
     queryFn: async () => {
       const result = await getAllSets();
-      let iterableList: IterableList[] = [];
 
       if (result.isSuccess) {
         const sets = result.data!;
         toDesceding(sets);
-        iterableList = sets.map((set) => ({
-          id: set.id,
-          name: set.name,
-          image: set.images.logo,
-        }));
 
-        return iterableList;
+        return sets;
       }
 
-      return iterableList;
+      return result.data!;
     },
     enabled: true,
     refetchOnMount: false,
@@ -37,11 +31,6 @@ export const useGetASet = (_id: string) => {
     queryKey: [QueryKeys.GetASet, _id],
     queryFn: async () => {
       const result = await getSetById(_id);
-
-      if(result.isSuccess)
-      {
-        return result.data;
-      }
 
       return result.data;
     },

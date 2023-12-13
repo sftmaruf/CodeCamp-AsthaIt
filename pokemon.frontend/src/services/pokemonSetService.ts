@@ -1,9 +1,9 @@
-import { Result } from '@/types';
+import { ISet, Result } from '@/types';
 import { convertStringToDate } from '@/utilities';
 import { PokemonTCG } from 'pokemon-tcg-sdk-typescript'
 import { Set } from 'pokemon-tcg-sdk-typescript/dist/sdk';
 
-export const getAllSets = async (): Promise<Result<Set[]>> => {
+export const getAllSets = async (): Promise<Result<ISet[]>> => {
     try {
         const sets = await PokemonTCG.getAllSets();
         return { isSuccess: true, data: sets, errors: [] }

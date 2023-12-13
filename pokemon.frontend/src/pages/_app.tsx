@@ -1,4 +1,3 @@
-import LoadingComponent from "@/components/Common/LoadingComponent/LoadingComponent";
 import "@/styles/globals.css";
 import { HydrationBoundary, QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ConfigProvider } from "antd";

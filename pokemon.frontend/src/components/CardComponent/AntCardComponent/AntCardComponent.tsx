@@ -1,14 +1,14 @@
 import { Card, ConfigProvider } from 'antd';
 import React from 'react';
 import { FunctionComponent } from 'react';
-import { IterableList } from '@/types';
+import { ISet } from '@/types';
 import EditOutlined from './EditOutlined';
 import Image from 'next/image';
 import Link from 'next/link';
 
 const { Meta } = Card;
 
-const AntCardComponent: FunctionComponent<{details: IterableList}> = ({details}) => {
+const AntCardComponent: FunctionComponent<{details: ISet}> = ({details}) => {
 
     return (
       <ConfigProvider
@@ -28,7 +28,7 @@ const AntCardComponent: FunctionComponent<{details: IterableList}> = ({details})
               <Image
                 className="object-contain"
                 alt={`${details.name} image`}
-                src={details.image!}
+                src={details.images.logo!}
                 sizes='200px'
                 fill
               />

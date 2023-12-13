@@ -1,11 +1,11 @@
 import React, { FunctionComponent } from 'react';
 import GridListComponent from '../GridListComponent/GridListComponent';
-import { IterableList } from '@/types';
+import { ISet } from '@/types';
 import { Flex } from 'antd';
 import HeaderComponent from '../HeaderComponent/HeaderComponent';
 import CarouselComponent from '../CarouselComponent/CarouselComponent';
 
-const HomeComponent: FunctionComponent<{_sets: IterableList[]}> = ({_sets}) => {
+const HomeComponent: FunctionComponent<{_sets: ISet[]}> = ({_sets}) => {
     return (
         <div>
             <HeaderComponent />

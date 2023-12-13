@@ -1,8 +1,9 @@
 import AddToCartModal from "@/components/ModalComponent/AddToCartModalComponent/AddToCartModalComponent";
+import { ISet } from "@/types";
 import { Flex } from "antd";
 import React, { FunctionComponent, useState } from "react";
 
-const EditOutlined: FunctionComponent<{_modalInfo: { id: string, name: string }}> = ({ _modalInfo}) => {
+const EditOutlined: FunctionComponent<{_modalInfo: ISet}> = ({ _modalInfo}) => {
     const [modalOpen, setModalOpen] = useState<boolean>(false);
 
     const handleOnClick = () => setModalOpen(true);
@@ -16,7 +17,7 @@ const EditOutlined: FunctionComponent<{_modalInfo: { id: string, name: string }}
                     <path d="M11.9959 12H12.0049" stroke="#141B34" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
             </Flex>
-            <AddToCartModal modalOpen={modalOpen} setModalOpen={setModalOpen} _id={_modalInfo.id}/>
+            <AddToCartModal modalOpen={modalOpen} setModalOpen={setModalOpen} _set={_modalInfo}/>
         </>
     );
 };

@@ -1,9 +1,9 @@
-import { IterableList } from '@/types';
+import { ISet } from '@/types';
 import React, { FunctionComponent } from 'react';
 import AntCardComponent from '../CardComponent/AntCardComponent/AntCardComponent';
 import { Col, Row } from 'antd';
 
-const GridListComponent: FunctionComponent<{_list: IterableList[], classNames?: string[]}> = ({_list, classNames}) => {
+const GridListComponent: FunctionComponent<{_list: ISet[], classNames?: string[]}> = ({_list, classNames}) => {
     return (
         <Row gutter={[16, 16]} className={classNames?.join(' ')}>
             {

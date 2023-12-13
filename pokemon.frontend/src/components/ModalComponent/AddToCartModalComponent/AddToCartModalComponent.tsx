@@ -1,4 +1,4 @@
-import { useEditName, useGetASet } from "@/utilities/reactQuery/reactQueryHooks";
+import { useEditName } from "@/utilities/reactQuery/reactQueryHooks";
 import { Button, Modal } from "antd";
 import { useApplicationStore } from "@/stores/applicationStore";
 import React, {
@@ -9,22 +9,21 @@ import React, {
 } from "react";
 import SetDetails from "@/components/SetDetailsComponent/SetDetailsComponent";
 import EditModal from "../EditModalComponent/EditModalComponent";
+import { ISet } from '@/types';
 
 interface PropsType {
   modalOpen: boolean;
   setModalOpen: Dispatch<SetStateAction<boolean>>;
-  _id: string;
+  _set: ISet
 }
 
 const AddToCartModal: FunctionComponent<PropsType> = ({
   modalOpen,
   setModalOpen,
-  _id,
+  _set
 }) => {
   const addToCart = useApplicationStore((state) => state.addToCart);
   const [editModalOpen, setEditModalOpen] = useState(false);
-
-  const { data, isFetched } = useGetASet(_id);
 
   const handleEdit = () => {
     setEditModalOpen(!editModalOpen);
@@ -33,18 +32,18 @@ const AddToCartModal: FunctionComponent<PropsType> = ({
   const { mutate: editName } =  useEditName();
 
   const handleUpdate = (newName: string) => {
-    editName({setId: _id, newName: newName});
+    editName({setId: _set.id, newName: newName});
   };
 
   return (
     <>
       <Modal
         centered
-        title={`${data?.name}`}
+        title={`${_set?.name}`}
         open={modalOpen}
         okText="Add To Cart"
         okButtonProps={{ className: "bg-black" }}
-        onOk={() => addToCart({ ...data!, timeStamp: Date.now() })}
+        onOk={() => addToCart({ ..._set!, timeStamp: Date.now() })}
         onCancel={() => setModalOpen(false)}
         footer={(_, { OkBtn, CancelBtn }) => (
           <>
@@ -53,7 +52,7 @@ const AddToCartModal: FunctionComponent<PropsType> = ({
             <OkBtn />
           </>
         )}>
-        {!isFetched ? <div>Loading</div> : <SetDetails _data={data!} />}
+        <SetDetails _data={_set!} />
       </Modal>
 
       <EditModal modalOpen={editModalOpen} setModalOpen={setEditModalOpen} handleUpdate={handleUpdate} />
