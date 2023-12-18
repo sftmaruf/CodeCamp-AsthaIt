@@ -14,9 +14,11 @@ public class CreateBatchCommandHandler : IRequestHandler<CreateBatchCommand>
 
     public async Task Handle(CreateBatchCommand request, CancellationToken cancellationToken)
     {
+
         var batch = request.ToBatch(request);
+        // await _unitOfWork.Batches.GetByIdAsync(request.id);
 
         await _unitOfWork.Batches.AddAsync(batch);
-        throw new NotImplementedException();
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
     }
 }

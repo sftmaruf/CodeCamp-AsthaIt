@@ -23,6 +23,8 @@ public static class ServiceConfigurations
         services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
 
         services.AddScoped<IStudentRepository, StudentRepository>();
+        services.AddScoped<ICourseRepository, CourseRepository>();
+        services.AddScoped<IBatchRepository, BatchRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         return services;

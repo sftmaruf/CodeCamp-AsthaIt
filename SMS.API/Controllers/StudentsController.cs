@@ -1,7 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using SMS.Application.Features.Students.Queries.GetStudents;
-using SMS.Application.Features.Students.Command.CreateStudent;
+using SMS.Application.Features.Students.Commands.CreateStudent;
 
 namespace SMS.API.Controllers;
 

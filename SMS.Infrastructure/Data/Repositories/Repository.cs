@@ -19,4 +19,10 @@ public abstract class Repository<TEntity, TKey> :
     {
         await _dbSet.AddAsync(entity);
     }
+
+    public async Task<TEntity?> GetByIdAsync(TKey id)
+    {
+        var entity = await _dbSet.FindAsync(id);
+        return entity;
+    }
 }
