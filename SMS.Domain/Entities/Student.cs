@@ -2,17 +2,17 @@ namespace SMS.Domain.Entities;
 
 public class Student {
     public Guid Id { get; set; }
-    public string ClassId { get; set; }
+    public string ClassId { get; set; } = string.Empty;
     public string FirstName { get; set;} = string.Empty;
     public string MiddleName { get; set;} = string.Empty;
     public string LastName { get; set; } = string.Empty;
     public string JoiningBatch { get; set; } = string.Empty;
-    public string Department { get; set; } = string.Empty;
     public string Degree { get; set; } = string.Empty;
-    // public List<Semester> AttendedSemesters { get; set; } = new();
+    public Guid BatchId { get; set; } = Guid.Empty;
+    public Batch? Batch { get; set; }
 
     public static Student Create(string classId, string firstName, string middleName,
-        string lastName, string joiningBatch, string department, string degree)
+        string lastName, string joiningBatch, string degree, Guid departmentId, Guid batchId)
     {
         var student =  new Student
         {
@@ -21,8 +21,8 @@ public class Student {
             MiddleName = middleName,
             LastName = lastName,
             JoiningBatch = joiningBatch,
-            Department = department,
-            Degree = degree
+            Degree = degree,
+            BatchId = batchId
         };
 
         return student;

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SMS.Infrastructure.Data;
 
@@ -11,9 +12,11 @@ using SMS.Infrastructure.Data;
 namespace SMS.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231219131402_RemoveRelationBetweenStudentAndDepartment")]
+    partial class RemoveRelationBetweenStudentAndDepartment
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -43,26 +46,6 @@ namespace SMS.Infrastructure.Data.Migrations
                     b.HasIndex("DepartmentId");
 
                     b.ToTable("Batches");
-                });
-
-            modelBuilder.Entity("SMS.Domain.Entities.Degree", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("DepartmentId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DepartmentId");
-
-                    b.ToTable("Degrees");
                 });
 
             modelBuilder.Entity("SMS.Domain.Entities.Department", b =>
@@ -131,17 +114,6 @@ namespace SMS.Infrastructure.Data.Migrations
                     b.Navigation("Department");
                 });
 
-            modelBuilder.Entity("SMS.Domain.Entities.Degree", b =>
-                {
-                    b.HasOne("SMS.Domain.Entities.Department", "Department")
-                        .WithMany("Degrees")
-                        .HasForeignKey("DepartmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Department");
-                });
-
             modelBuilder.Entity("SMS.Domain.Entities.Student", b =>
                 {
                     b.HasOne("SMS.Domain.Entities.Batch", "Batch")
@@ -161,8 +133,6 @@ namespace SMS.Infrastructure.Data.Migrations
             modelBuilder.Entity("SMS.Domain.Entities.Department", b =>
                 {
                     b.Navigation("Batches");
-
-                    b.Navigation("Degrees");
                 });
 #pragma warning restore 612, 618
         }
