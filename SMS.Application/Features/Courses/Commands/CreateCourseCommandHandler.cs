@@ -14,7 +14,7 @@ public class CreateCourseCommandHandler : IRequestHandler<CreateCourseCommand>
 
     public async Task Handle(CreateCourseCommand request, CancellationToken cancellationToken)
     {
-        var course = request.ToCourse(request);
+        var course = request.ToCourse();
 
         await _unitOfWork.Courses.AddAsync(course);
     }

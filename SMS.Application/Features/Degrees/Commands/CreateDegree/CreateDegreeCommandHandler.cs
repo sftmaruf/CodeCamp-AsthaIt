@@ -14,7 +14,7 @@ public class CreateDegreeCommandHandler : IRequestHandler<CreateDegreeCommand>
 
     public async Task Handle(CreateDegreeCommand request, CancellationToken cancellationToken)
     {
-        var degree = request.ToDegree(request);
+        var degree = request.ToDegree();
 
         await _unitOfWork.Degrees.AddAsync(degree);
         await _unitOfWork.SaveChangesAsync(cancellationToken);

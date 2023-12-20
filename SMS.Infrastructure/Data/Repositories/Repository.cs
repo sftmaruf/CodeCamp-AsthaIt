@@ -1,3 +1,4 @@
+using System;
 using Microsoft.EntityFrameworkCore;
 using SMS.Application.Common.Interfaces;
 
@@ -24,5 +25,22 @@ public abstract class Repository<TEntity, TKey> :
     {
         var entity = await _dbSet.FindAsync(id);
         return entity;
+    }
+
+    public async Task<IReadOnlyList<TEntity>> GetAllAsync(string includesProperty = "")
+    {
+        IQueryable<TEntity> query = _dbSet;
+        foreach(var include in includesProperty.Split(new char[]{ ','}, StringSplitOptions.RemoveEmptyEntries))
+        {
+            query = query.Include(include);
+        }
+        var items = await query.ToListAsync();
+
+        return items.AsReadOnly();
+    }
+
+    public void Edit(TEntity entityToUpdate)
+    {
+        _dbSet.Entry(entityToUpdate).State = EntityState.Modified;
     }
 }

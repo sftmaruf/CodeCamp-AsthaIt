@@ -7,9 +7,9 @@ public record CreateDepartmentCommand : IRequest
 {
     public string Name { get; set; } = string.Empty;
 
-    public Department ToDepartment(CreateDepartmentCommand command)
+    public Department ToDepartment()
     {
-        var department = Department.Create(command.Name);
+        var department = Department.Create(Name);
         return department;
     }
 }

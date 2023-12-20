@@ -10,14 +10,12 @@ public record CreateStudentCommand : IRequest
     public string MiddleName { get; set;} = string.Empty;
     public string LastName { get; set; } = string.Empty;
     public string JoiningBatch { get; set; } = string.Empty;
-    public string Degree { get; set; } = string.Empty;
-    public Guid DepartmentId { get; set; } = Guid.Empty;
     public Guid BatchId { get; set; } = Guid.Empty;
 
     public Student ToStudent(CreateStudentCommand command)
     {
         var student = Student.Create(command.ClassId, command.FirstName, command.MiddleName, command.LastName,
-            command.JoiningBatch, command.Degree, command.DepartmentId, command.BatchId);
+            command.JoiningBatch, command.BatchId);
 
         return student;
     }

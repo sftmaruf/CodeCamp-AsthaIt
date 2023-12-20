@@ -6,7 +6,8 @@ public class Semester
     public int Month { get; set; }
     public int Year { get; set; }
     public int Duration { get; set; }
-    public List<Course> Courses { get; set; } = new();
+    public List<StudentRegistration> StudentRegistrations { get; set; } = new();
+    public List<SemesterCourse> SemesterCourses { get; set; } = new();
 
     public static Semester Create(int month, int year, int duration)
     {

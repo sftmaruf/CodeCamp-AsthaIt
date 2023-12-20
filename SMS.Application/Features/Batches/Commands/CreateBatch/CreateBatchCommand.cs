@@ -9,9 +9,9 @@ public record CreateBatchCommand : IRequest
     public int Year { get; set; }
     public Guid DepartmentId { get; set; } = Guid.Empty;
 
-    public Batch ToBatch(CreateBatchCommand command)
+    public Batch ToBatch()
     {
-        var batch = Batch.Create(command.Name, command.Year, command.DepartmentId);
+        var batch = Batch.Create(Name, Year, DepartmentId);
 
         return batch;
     }

@@ -6,13 +6,15 @@ namespace SMS.Application.Features.Courses.Commands;
 
 public record CreateCourseCommand : IRequest
 {
-    public string CourseCode { get; set; }
+    public string CourseCode { get; set; } = string.Empty;
     public string Name { get; set; } = string.Empty;
     public int Credit { get; set; }
+    public Guid InstructorId { get; set; } = Guid.Empty;
 
-    public Course ToCourse(CreateCourseCommand command)
+    public Course ToCourse()
     {
-        var course = Course.Create(command.CourseCode, command.Name, command.Credit);
+        var course = Course.Create(CourseCode, Name, Credit, InstructorId);
+
         return course;
     }
 }

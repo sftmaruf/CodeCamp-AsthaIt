@@ -27,6 +27,8 @@ public static class ServiceConfigurations
         services.AddScoped<IBatchRepository, BatchRepository>();
         services.AddScoped<IDepartmentRepository, DepartmentRepository>();
         services.AddScoped<IDegreeRepository, DegreeRepository>();
+        services.AddScoped<IInstructorRepository, InstructorRepository>();
+        services.AddScoped<ISemesterRepository, SemesterRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         return services;

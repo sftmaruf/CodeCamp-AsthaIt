@@ -5,10 +5,9 @@ public class Batch
     public Guid Id { get; set; }
     public string Name  { get; set; } = string.Empty;
     public int Year  { get; set; }
-    public List<Student> Students { get; set; } = new();
     public Guid DepartmentId  { get; set; } = Guid.Empty;
     public Department? Department  { get; set; }
-    public List<Course> Courses { get; set; } = new();
+    public List<Student> Students { get; set; } = new();
 
     public static Batch Create(string name, int year, Guid departmentId)
     {

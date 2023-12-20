@@ -1,5 +1,4 @@
 using SMS.Application.Common.Interfaces;
-using SMS.Infrastructure.Data.Repositories;
 
 namespace SMS.Infrastructure.Data.UnitOfWorks;
 
@@ -11,13 +10,17 @@ public class UnitOfWork : IUnitOfWork
     public IBatchRepository Batches { get; private set; }
     public IDepartmentRepository Departments { get; private set; }
     public IDegreeRepository Degrees { get; private set; }
+    public IInstructorRepository Instructors { get; private set; }
+    public ISemesterRepository Semesters { get; private set; }
 
     public UnitOfWork(IApplicationDbContext applicationDbContext,
         IStudentRepository students,
         ICourseRepository courses,
         IBatchRepository batchRepository,
         IDepartmentRepository departmentRepository,
-        IDegreeRepository degreeRepository)
+        IDegreeRepository degreeRepository,
+        IInstructorRepository instructorRepository,
+        ISemesterRepository semesters)
     {
         _applicationDbContext = applicationDbContext;
         Students = students;
@@ -25,6 +28,8 @@ public class UnitOfWork : IUnitOfWork
         Batches = batchRepository;
         Departments = departmentRepository;
         Degrees = degreeRepository;
+        Instructors = instructorRepository;
+        Semesters = semesters;
     }
 
     public async Task SaveChangesAsync(CancellationToken cancellationToken)

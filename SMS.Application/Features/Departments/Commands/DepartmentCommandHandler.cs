@@ -15,7 +15,7 @@ public record CreateDepartmentCommandHandler : IRequestHandler<CreateDepartmentC
 
     public async Task Handle(CreateDepartmentCommand request, CancellationToken cancellationToken)
     {
-        var department = request.ToDepartment(request);
+        var department = request.ToDepartment();
 
         await _unitOfWork.Departments.AddAsync(department);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
