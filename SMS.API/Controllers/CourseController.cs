@@ -1,11 +1,11 @@
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SMS.Application.Features.Batches.Commands.CreateBatch;
 using SMS.Application.Features.Courses.Queries.GetCourses;
-using SMS.Domain.Entities;
 
 namespace SMS.API.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/v1/[controller]/[action]")]
 public class CoourseController : ControllerBase

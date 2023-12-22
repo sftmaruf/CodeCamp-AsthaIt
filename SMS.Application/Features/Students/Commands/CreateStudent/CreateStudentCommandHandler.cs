@@ -14,9 +14,16 @@ public class CreateStudentCommandHandler : IRequestHandler<CreateStudentCommand>
 
     public async Task Handle(CreateStudentCommand request, CancellationToken cancellationToken)
     {
-        var student = request.ToStudent(request);
+        var  defaultPassword = "123456";
 
+        var student = request.ToStudent();
         await _unitOfWork.Students.AddAsync(student);
+
+        student.Credential = new() {
+            Password = defaultPassword,
+            StudentId = student.Id
+        };
+
         await _unitOfWork.SaveChangesAsync(cancellationToken);
     }
 }

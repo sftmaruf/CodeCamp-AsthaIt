@@ -1,4 +1,5 @@
 using System;
+using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using SMS.Application.Common.Interfaces;
 
@@ -27,9 +28,27 @@ public abstract class Repository<TEntity, TKey> :
         return entity;
     }
 
+    public Task<TEntity?> GetDynamic(Expression<Func<TEntity, bool>>? predicate = null, string includesProperty = "")
+    {
+        var query = _dbSet.AsQueryable();
+
+        foreach(var include in includesProperty.Split(new char[]{ ','}, StringSplitOptions.RemoveEmptyEntries))
+        {
+            query = query.Include(include);
+        }
+
+        if(predicate is not null)
+        {
+            query = query.Where(predicate);
+        }
+
+        var entity = query.FirstOrDefault();
+        return Task.FromResult(entity);
+    }
+
     public async Task<IReadOnlyList<TEntity>> GetAllAsync(string includesProperty = "")
     {
-        IQueryable<TEntity> query = _dbSet;
+        var query = _dbSet.AsQueryable();
         foreach(var include in includesProperty.Split(new char[]{ ','}, StringSplitOptions.RemoveEmptyEntries))
         {
             query = query.Include(include);

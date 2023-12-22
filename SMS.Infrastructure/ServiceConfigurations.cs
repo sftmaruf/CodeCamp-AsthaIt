@@ -1,10 +1,15 @@
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using SMS.Application.Common.Interfaces;
+using SMS.Application.Common.Interfaces.Authentications;
 using SMS.Infrastructure.Data;
 using SMS.Infrastructure.Data.Repositories;
 using SMS.Infrastructure.Data.UnitOfWorks;
+using SMS.Infrastructure.Services;
 
 namespace SMS.Infrastructure;
 
@@ -20,6 +25,20 @@ public static class ServiceConfigurations
             options.UseSqlServer(connectionString);
         });
 
+        services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(o =>
+            {
+                o.TokenValidationParameters = new TokenValidationParameters {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = configuration.GetValue<string>("Jwt:Issuer"),
+                    ValidAudience = configuration.GetValue<string>("Jwt:Audience"),
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.GetValue<string>("Jwt:Key")!))
+                };
+            });
+
         services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
 
         services.AddScoped<IStudentRepository, StudentRepository>();
@@ -30,6 +49,8 @@ public static class ServiceConfigurations
         services.AddScoped<IInstructorRepository, InstructorRepository>();
         services.AddScoped<ISemesterRepository, SemesterRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+        services.AddScoped<IAuthService, AuthService>();
 
         return services;
     }

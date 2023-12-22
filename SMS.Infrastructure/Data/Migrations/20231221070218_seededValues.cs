@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace SMS.Infrastructure.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class seededValue : Migration
+    public partial class seededValues : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -91,6 +91,15 @@ namespace SMS.Infrastructure.Data.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "Credentials",
+                columns: new[] { "Id", "Password", "StudentId" },
+                values: new object[,]
+                {
+                    { new Guid("b9e216ac-f9ff-4abc-a789-a1c36f006948"), "123456", new Guid("edfc80e0-1c2d-4112-8b47-56371dade5ab") },
+                    { new Guid("f685d368-f149-452d-8934-0d216424223e"), "123456", new Guid("a6660f6e-96bb-4d2d-9a45-f28edc0b254d") }
+                });
+
+            migrationBuilder.InsertData(
                 table: "StudentRegistrations",
                 columns: new[] { "Id", "SemesterId", "StudentId" },
                 values: new object[,]
@@ -108,6 +117,16 @@ namespace SMS.Infrastructure.Data.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DeleteData(
+                table: "Credentials",
+                keyColumn: "Id",
+                keyValue: new Guid("b9e216ac-f9ff-4abc-a789-a1c36f006948"));
+
+            migrationBuilder.DeleteData(
+                table: "Credentials",
+                keyColumn: "Id",
+                keyValue: new Guid("f685d368-f149-452d-8934-0d216424223e"));
+
             migrationBuilder.DeleteData(
                 table: "Degrees",
                 keyColumn: "Id",

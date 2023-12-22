@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SMS.Infrastructure.Data;
 
@@ -11,9 +12,11 @@ using SMS.Infrastructure.Data;
 namespace SMS.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231221065208_establishedOneToOneBetweenStudentsAndCredentials")]
+    partial class establishedOneToOneBetweenStudentsAndCredentials
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -43,22 +46,6 @@ namespace SMS.Infrastructure.Data.Migrations
                     b.HasIndex("DepartmentId");
 
                     b.ToTable("Batches");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("a202a227-811b-4404-b30e-707a495fcada"),
-                            DepartmentId = new Guid("40e2e095-c0bc-4127-a7c5-26613771b6dd"),
-                            Name = "26",
-                            Year = 2018
-                        },
-                        new
-                        {
-                            Id = new Guid("d335042c-9d3f-46be-b310-78cb0cbfe4f3"),
-                            DepartmentId = new Guid("447d4bdd-02d0-45a8-8233-9194a2f375ed"),
-                            Name = "1",
-                            Year = 2019
-                        });
                 });
 
             modelBuilder.Entity("SMS.Domain.Entities.Course", b =>
@@ -86,32 +73,6 @@ namespace SMS.Infrastructure.Data.Migrations
                     b.HasIndex("InstructorId");
 
                     b.ToTable("Courses");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("b13d51b9-dacb-497a-8a96-cfc6fa316941"),
-                            CourseCode = "SE101",
-                            Credit = 3,
-                            InstructorId = new Guid("bbd8efde-c3c2-4974-a9f0-259e3ead2d75"),
-                            Name = "Introduction to Software Engineering"
-                        },
-                        new
-                        {
-                            Id = new Guid("5187c93a-88bb-457e-9187-e6ac0ef200d5"),
-                            CourseCode = "SE301",
-                            Credit = 3,
-                            InstructorId = new Guid("55335290-bb42-4b55-8613-a6067d359eed"),
-                            Name = "Introduction to Web Programming"
-                        },
-                        new
-                        {
-                            Id = new Guid("da2c6d1f-a060-40c8-8881-f233c247341a"),
-                            CourseCode = "ENG103",
-                            Credit = 3,
-                            InstructorId = new Guid("9e7a731d-b036-4fd7-98fb-304604ee3193"),
-                            Name = "Introduction to English"
-                        });
                 });
 
             modelBuilder.Entity("SMS.Domain.Entities.Credential", b =>
@@ -133,20 +94,6 @@ namespace SMS.Infrastructure.Data.Migrations
                         .IsUnique();
 
                     b.ToTable("Credentials", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("b9e216ac-f9ff-4abc-a789-a1c36f006948"),
-                            Password = "123456",
-                            StudentId = new Guid("edfc80e0-1c2d-4112-8b47-56371dade5ab")
-                        },
-                        new
-                        {
-                            Id = new Guid("f685d368-f149-452d-8934-0d216424223e"),
-                            Password = "123456",
-                            StudentId = new Guid("a6660f6e-96bb-4d2d-9a45-f28edc0b254d")
-                        });
                 });
 
             modelBuilder.Entity("SMS.Domain.Entities.Degree", b =>
@@ -167,26 +114,6 @@ namespace SMS.Infrastructure.Data.Migrations
                     b.HasIndex("DepartmentId");
 
                     b.ToTable("Degrees");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("71e87e5c-2ab2-4acb-a079-850792ec0485"),
-                            DepartmentId = new Guid("40e2e095-c0bc-4127-a7c5-26613771b6dd"),
-                            Title = "BSc"
-                        },
-                        new
-                        {
-                            Id = new Guid("b49ef72c-66ed-457f-bdd7-59add3c0ffbb"),
-                            DepartmentId = new Guid("447d4bdd-02d0-45a8-8233-9194a2f375ed"),
-                            Title = "LLB"
-                        },
-                        new
-                        {
-                            Id = new Guid("3b46307a-7565-47e0-b0aa-d0a290ca7b0a"),
-                            DepartmentId = new Guid("79aedfda-4b1e-45ab-bdc7-feafdddcfd6a"),
-                            Title = "BA"
-                        });
                 });
 
             modelBuilder.Entity("SMS.Domain.Entities.Department", b =>
@@ -202,23 +129,6 @@ namespace SMS.Infrastructure.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Departments");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("40e2e095-c0bc-4127-a7c5-26613771b6dd"),
-                            Name = "Department of Software Engineering"
-                        },
-                        new
-                        {
-                            Id = new Guid("79aedfda-4b1e-45ab-bdc7-feafdddcfd6a"),
-                            Name = "Department of English"
-                        },
-                        new
-                        {
-                            Id = new Guid("447d4bdd-02d0-45a8-8233-9194a2f375ed"),
-                            Name = "Department of Law"
-                        });
                 });
 
             modelBuilder.Entity("SMS.Domain.Entities.Instructor", b =>
@@ -233,23 +143,6 @@ namespace SMS.Infrastructure.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Instructors");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("55335290-bb42-4b55-8613-a6067d359eed"),
-                            Name = "Osama"
-                        },
-                        new
-                        {
-                            Id = new Guid("bbd8efde-c3c2-4974-a9f0-259e3ead2d75"),
-                            Name = "Jabed"
-                        },
-                        new
-                        {
-                            Id = new Guid("9e7a731d-b036-4fd7-98fb-304604ee3193"),
-                            Name = "Shammem"
-                        });
                 });
 
             modelBuilder.Entity("SMS.Domain.Entities.Semester", b =>
@@ -270,22 +163,6 @@ namespace SMS.Infrastructure.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Semesters");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("72c3124d-1810-4604-8188-8d2952e6d804"),
-                            Duration = 6,
-                            Month = 1,
-                            Year = 2018
-                        },
-                        new
-                        {
-                            Id = new Guid("9557946c-0595-491c-bd5f-cbee89d19236"),
-                            Duration = 6,
-                            Month = 7,
-                            Year = 2019
-                        });
                 });
 
             modelBuilder.Entity("SMS.Domain.Entities.SemesterCourse", b =>
@@ -307,26 +184,6 @@ namespace SMS.Infrastructure.Data.Migrations
                     b.HasIndex("SemesterId");
 
                     b.ToTable("SemesterCourses");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("0a6f93d2-c967-43f5-a7c2-72146e297b56"),
-                            CourseId = new Guid("b13d51b9-dacb-497a-8a96-cfc6fa316941"),
-                            SemesterId = new Guid("72c3124d-1810-4604-8188-8d2952e6d804")
-                        },
-                        new
-                        {
-                            Id = new Guid("93243348-d24f-47b2-a70d-f929ae76fccc"),
-                            CourseId = new Guid("5187c93a-88bb-457e-9187-e6ac0ef200d5"),
-                            SemesterId = new Guid("9557946c-0595-491c-bd5f-cbee89d19236")
-                        },
-                        new
-                        {
-                            Id = new Guid("6257c6eb-2d03-47fe-a887-3de118b68913"),
-                            CourseId = new Guid("da2c6d1f-a060-40c8-8881-f233c247341a"),
-                            SemesterId = new Guid("72c3124d-1810-4604-8188-8d2952e6d804")
-                        });
                 });
 
             modelBuilder.Entity("SMS.Domain.Entities.Student", b =>
@@ -363,28 +220,6 @@ namespace SMS.Infrastructure.Data.Migrations
                     b.HasIndex("BatchId");
 
                     b.ToTable("Students");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("edfc80e0-1c2d-4112-8b47-56371dade5ab"),
-                            BatchId = new Guid("a202a227-811b-4404-b30e-707a495fcada"),
-                            ClassId = "182-35-2530",
-                            FirstName = "Md",
-                            JoiningBatch = "",
-                            LastName = "Maruf",
-                            MiddleName = "Shafayet"
-                        },
-                        new
-                        {
-                            Id = new Guid("a6660f6e-96bb-4d2d-9a45-f28edc0b254d"),
-                            BatchId = new Guid("d335042c-9d3f-46be-b310-78cb0cbfe4f3"),
-                            ClassId = "142-12-1031",
-                            FirstName = "Md",
-                            JoiningBatch = "",
-                            LastName = "",
-                            MiddleName = "Mosabbir"
-                        });
                 });
 
             modelBuilder.Entity("SMS.Domain.Entities.StudentRegistration", b =>
@@ -406,20 +241,6 @@ namespace SMS.Infrastructure.Data.Migrations
                     b.HasIndex("StudentId");
 
                     b.ToTable("StudentRegistrations");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("4b3efc3c-276a-4a30-9764-8a4782ce7136"),
-                            SemesterId = new Guid("72c3124d-1810-4604-8188-8d2952e6d804"),
-                            StudentId = new Guid("edfc80e0-1c2d-4112-8b47-56371dade5ab")
-                        },
-                        new
-                        {
-                            Id = new Guid("2b03ae45-f974-43ca-bd42-4c91849b7599"),
-                            SemesterId = new Guid("9557946c-0595-491c-bd5f-cbee89d19236"),
-                            StudentId = new Guid("a6660f6e-96bb-4d2d-9a45-f28edc0b254d")
-                        });
                 });
 
             modelBuilder.Entity("SMS.Domain.Entities.StudentRegistrationCourse", b =>
@@ -441,14 +262,6 @@ namespace SMS.Infrastructure.Data.Migrations
                     b.HasIndex("StudentRegistrationId");
 
                     b.ToTable("StudentRegistrationCourses");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("09055894-c849-43b8-aab1-46f9f49935bb"),
-                            CourseId = new Guid("b13d51b9-dacb-497a-8a96-cfc6fa316941"),
-                            StudentRegistrationId = new Guid("4b3efc3c-276a-4a30-9764-8a4782ce7136")
-                        });
                 });
 
             modelBuilder.Entity("SMS.Domain.Entities.Batch", b =>

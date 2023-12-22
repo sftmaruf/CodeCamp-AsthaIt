@@ -3,9 +3,11 @@ using Microsoft.AspNetCore.Mvc;
 using SMS.Application.Features.Students.Queries.GetStudents;
 using SMS.Application.Features.Students.Commands.CreateStudent;
 using SMS.Application.Features.Students.Commands.CreateStudentRegistration;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SMS.API.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/v1/[controller]/[action]")]
 public class StudentsController : ControllerBase
@@ -19,6 +21,7 @@ public class StudentsController : ControllerBase
         return Ok(list);
     }
 
+    [AllowAnonymous]
     [HttpPost]
     public async Task<bool> CreateStudent(CreateStudentCommand command)
     {

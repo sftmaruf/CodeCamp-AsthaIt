@@ -10,6 +10,16 @@ public class Student {
     public Guid BatchId { get; set; } = Guid.Empty;
     public Batch? Batch { get; set; }
     public List<StudentRegistration> StudentRegistrations { get; set; } = new();
+    public Credential Credential { get; set; } = default!;
+
+    public string FullName
+    {
+        get
+        {
+            var fullName = $"{FirstName} {MiddleName} {LastName}";
+            return fullName.Trim();
+        }
+    }
 
     public static Student Create(string classId, string firstName, string middleName,
         string lastName, string joiningBatch, Guid batchId)

@@ -12,8 +12,8 @@ using SMS.Infrastructure.Data;
 namespace SMS.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231220193136_seededValue")]
-    partial class seededValue
+    [Migration("20231221070218_seededValues")]
+    partial class seededValues
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -114,6 +114,41 @@ namespace SMS.Infrastructure.Data.Migrations
                             Credit = 3,
                             InstructorId = new Guid("9e7a731d-b036-4fd7-98fb-304604ee3193"),
                             Name = "Introduction to English"
+                        });
+                });
+
+            modelBuilder.Entity("SMS.Domain.Entities.Credential", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("StudentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StudentId")
+                        .IsUnique();
+
+                    b.ToTable("Credentials", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("b9e216ac-f9ff-4abc-a789-a1c36f006948"),
+                            Password = "123456",
+                            StudentId = new Guid("edfc80e0-1c2d-4112-8b47-56371dade5ab")
+                        },
+                        new
+                        {
+                            Id = new Guid("f685d368-f149-452d-8934-0d216424223e"),
+                            Password = "123456",
+                            StudentId = new Guid("a6660f6e-96bb-4d2d-9a45-f28edc0b254d")
                         });
                 });
 
@@ -441,6 +476,17 @@ namespace SMS.Infrastructure.Data.Migrations
                     b.Navigation("Instructor");
                 });
 
+            modelBuilder.Entity("SMS.Domain.Entities.Credential", b =>
+                {
+                    b.HasOne("SMS.Domain.Entities.Student", "Student")
+                        .WithOne("Credential")
+                        .HasForeignKey("SMS.Domain.Entities.Credential", "StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Student");
+                });
+
             modelBuilder.Entity("SMS.Domain.Entities.Degree", b =>
                 {
                     b.HasOne("SMS.Domain.Entities.Department", "Department")
@@ -553,6 +599,9 @@ namespace SMS.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("SMS.Domain.Entities.Student", b =>
                 {
+                    b.Navigation("Credential")
+                        .IsRequired();
+
                     b.Navigation("StudentRegistrations");
                 });
 
